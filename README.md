@@ -103,7 +103,3 @@ firebase deploy --only functions
 ```
 
 ---
-
-## 🗂️ License
-
-MIT © Ori Kanner — 2025
