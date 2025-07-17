@@ -1,0 +1,46 @@
+# Node
+node_modules/
+.env
+.env.*           # for multiple envs like .env.dev, .env.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Firebase
+.firebase/
+.firebaserc.local
+
+# Build outputs
+lib/
+dist/
+build/
+coverage/
+
+# Firebase Functions build
+functions/lib/
+functions/node_modules/
+
+# Firebase Emulators
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# VSCode
+.vscode/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Runtime files
+*.local
+*.cache
+*.tmp
+tmp/
+.cache/
+
+# Credentials
+credentials

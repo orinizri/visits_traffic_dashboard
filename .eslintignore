@@ -1,0 +1,12 @@
+# Ignore build outputs everywhere
+**/lib/**
+**/build/**
+
+# Workspaces’ node_modules
+**/node_modules/**
+
+# CRA build folder
+client/build/
+
+# Firebase Functions lib folder
+firebase-functions/lib/
