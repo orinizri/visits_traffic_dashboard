@@ -1,6 +1,6 @@
-import { TrafficSeedInput } from "../types/visitsTraffic.types";
+import { TrafficSeedEntry } from "../types/visitsTraffic.types";
 
-export const trafficStatsSeedData: TrafficSeedInput[] = [
+export const trafficStatsSeedData: TrafficSeedEntry[] = [
   { date: "2025-03-01", visits: 120 },
   { date: "2025-03-02", visits: 140 },
   { date: "2025-03-03", visits: 98 },

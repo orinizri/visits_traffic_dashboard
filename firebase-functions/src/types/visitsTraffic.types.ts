@@ -1,4 +1,4 @@
-export type TrafficSeedInput = {
+export type TrafficSeedEntry = {
   date: string;
   visits: number;
   createdBy?: string;

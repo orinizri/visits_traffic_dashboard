@@ -2,14 +2,14 @@ import type { Request, Response, NextFunction } from "express";
 import type { ListQuery } from "../types/pagination.types";
 import * as service from "../services/visitsTraffic.service";
 import { sendPaginated, sendSuccess, sendCreated, ApiResponse } from "../utils/apiResponse.utils";
-import { TrafficSeedInput } from "../types/visitsTraffic.types";
+import { TrafficSeedEntry } from "../types/visitsTraffic.types";
 import { CreateVisitsTrafficDTO, VisitsTrafficSchema } from "../zod/visitsTraffic.schema";
 import { ParamsDictionary } from "express-serve-static-core";
 import { logger } from "firebase-functions";
 
 export async function fetchVisitsTrafficController(
-  req: Request<ParamsDictionary, ApiResponse<TrafficSeedInput[]>, unknown, ListQuery>,
-  res: Response<ApiResponse<TrafficSeedInput[]>>,
+  req: Request<ParamsDictionary, ApiResponse<TrafficSeedEntry[]>, unknown, ListQuery>,
+  res: Response<ApiResponse<TrafficSeedEntry[]>>,
   next: NextFunction
 ) {
   try {
@@ -31,10 +31,10 @@ export async function fetchVisitsTrafficController(
 export async function createVisitsTrafficController(
   req: Request<
     ParamsDictionary,
-    { success: boolean; data: TrafficSeedInput },
+    { success: boolean; data: TrafficSeedEntry },
     CreateVisitsTrafficDTO
   >,
-  res: Response<{ success: boolean; data: TrafficSeedInput }>,
+  res: Response<{ success: boolean; data: TrafficSeedEntry }>,
   next: NextFunction
 ) {
   try {

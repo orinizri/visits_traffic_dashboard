@@ -16,5 +16,5 @@ export const ENV = {
     messagingSenderId: getEnv("REACT_APP_FIREBASE_MESSAGING_SENDER_ID"),
     appId: getEnv("REACT_APP_FIREBASE_APP_ID"),
   },
-  apiBaseUrl: getEnv("REACT_APP_API_BASE_URL", "http://localhost:5001"),
+  apiBaseUrl: getEnv("REACT_APP_API_BASE_URL"),
 };
