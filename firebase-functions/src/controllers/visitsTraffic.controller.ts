@@ -13,7 +13,7 @@ export async function fetchVisitsTrafficController(
   next: NextFunction
 ) {
   try {
-    const limit = Number(req.query.limit) || 10;
+    const limit = Number(req.query.limit) || 100;
     const page = Number(req.query.page) || 1;
     const { items, total } = await service.fetchVisitsStats({ limit, page });
     logger.log("Fetched visits traffic:", items, "Total:", total);

@@ -38,14 +38,14 @@ export async function fetchVisitsStats({
   const totalSnap = await col.get();
   const total = totalSnap.size;
   // Retrieve paginated data
-  const snapshot = await col.orderBy("date", "asc").offset(offset).limit(limit).get();
+  const snapshot = await col.orderBy("date", "desc").offset(offset).limit(limit).get();
   // Map documents to User instances via converter
   const items: TrafficSeedEntry[] = snapshot.docs.map(doc => doc.data());
   return { items, total };
 }
 
 /**
- * Creates a new user document in Firestore.
+ * Creates a new visits traffic document in Firestore.
  */
 export async function createVisitsTraffic(data: CreateVisitsTrafficDTO): Promise<TrafficSeedEntry> {
   const timestamp = new Date().toISOString();
@@ -56,13 +56,13 @@ export async function createVisitsTraffic(data: CreateVisitsTrafficDTO): Promise
   const ref = await col.add(payload);
   const newSnap = await col.doc(ref.id).get();
   if (!newSnap.exists) {
-    throw new AppError("Failed to retrieve the newly created user", 500);
+    throw new AppError("Failed to retrieve the newly created visits traffic", 500);
   }
   return newSnap.data()!;
 }
 
 /**
- * Updates an existing user document and returns the updated user.
+ * Updates an existing visits traffic document and returns the updated user.
  */
 export async function updateVisitsTraffic(data: TrafficSeedEntry): Promise<TrafficSeedEntry> {
   const updatedAt = new Date().toISOString();
@@ -75,7 +75,7 @@ export async function updateVisitsTraffic(data: TrafficSeedEntry): Promise<Traff
 }
 
 /**
- * Deletes a user by ID.
+ * Deletes a visits traffic by date.
  */
 export async function deleteVisitsTraffic(date: string): Promise<void> {
   const snap = await col.doc(date).get();

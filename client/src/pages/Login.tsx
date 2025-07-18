@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Typography, Box } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth } from "../hooks/useAuth";
-import { getVisitsTraffic } from "../services/trafficService";
+import { fetchVisitsTraffic } from "../services/trafficService";
 
 const LoginPage = () => {
-  const { user, loading, loginWithGoogle } = useAuth();
+  const { user, isLoading, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log("try axios");
-    getVisitsTraffic();
-    if (!loading && user) {
+    fetchVisitsTraffic();
+    if (!isLoading && user) {
       console.log("User is authenticated:", user);
       navigate("/dashboard");
     }
-  }, [user, loading, navigate]);
+  }, [user, isLoading, navigate]);
 
   return (
     <Container maxWidth="sm" sx={{ mt: 10 }}>
@@ -40,7 +40,7 @@ const LoginPage = () => {
           startIcon={<GoogleIcon />}
           fullWidth
           sx={{ py: 1.5 }}
-          disabled={loading}
+          disabled={isLoading}
         >
           Continue with Google
         </Button>

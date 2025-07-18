@@ -5,7 +5,7 @@ import express from "express";
 import cors from "cors";
 import apiRouter from "./api";
 import { errorHandler } from "./utils/errorHandler";
-import { seedVisitsTrafficHandler } from "./services/seedVisitsTraffic.service";
+// import { seedVisitsTrafficHandler } from "./services/seedVisitsTraffic.service";
 
 const app = express();
 
@@ -25,4 +25,4 @@ app.use(errorHandler);
 export const api = functions.https.onRequest(app);
 
 /* INITIAL TRAFFIC STATS SEEDER */
-export const seed = functions.https.onRequest(seedVisitsTrafficHandler);
+// export const seed = functions.https.onRequest(seedVisitsTrafficHandler);

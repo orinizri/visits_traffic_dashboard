@@ -13,7 +13,7 @@ export interface UserInfo {
 
 export type AuthContextType = {
   user: User | null;
-  loading: boolean;
+  isLoading: boolean;
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 };
