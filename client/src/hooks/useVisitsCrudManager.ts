@@ -1,9 +1,9 @@
 import { useReducer, useCallback } from "react";
 import axiosInstance from "../api/axios";
 import {
-  initialState,
   VisitsCrudAction,
   VisitsCrudState,
+  initialState,
   VisitsTrafficEntry,
 } from "../types/visitsTraffic.types";
 import { toast } from "react-toastify";
@@ -24,62 +24,67 @@ function visitsReducer(state: VisitsCrudState, action: VisitsCrudAction): Visits
 }
 
 export function useVisitsCrudManager() {
-  const [state, dispatch] = useReducer(visitsReducer, initialState); // loading, error and success
+  const [state, dispatch] = useReducer(visitsReducer, initialState);
 
   const handleCrudAction = useCallback(
     async (
       requestFn: () => Promise<any>,
       successMessage: string,
       fallbackErrorMessage: string = "Something went wrong"
-    ) => {
+    ): Promise<boolean> => {
       dispatch({ type: "START" });
       try {
         await requestFn();
         dispatch({ type: "SUCCESS" });
         toast.success(successMessage);
+        return true;
       } catch (err: any) {
         const message = err?.response?.data?.message || fallbackErrorMessage;
         dispatch({ type: "ERROR", error: message });
         toast.error(message);
+        return false;
       }
     },
     []
   );
 
   const updateVisit = useCallback(
-    (entry: VisitsTrafficEntry) =>
-      handleCrudAction(
-        () => axiosInstance.put(`/visits-traffic/${entry.date}`, entry),
+    async (entry: VisitsTrafficEntry): Promise<boolean> => {
+      return await handleCrudAction(
+        () => axiosInstance.put(`/visits-traffic`, entry),
         "Visit updated successfully",
         "Failed to update visit"
-      ),
+      );
+    },
     [handleCrudAction]
   );
 
   const deleteVisit = useCallback(
-    (date: string) =>
-      handleCrudAction(
-        () => axiosInstance.delete(`/visits-traffic/${date}`),
+    async (date: string): Promise<boolean> => {
+      return await handleCrudAction(
+        () => axiosInstance.post(`/visits-traffic/delete`, { date }),
         "Visit deleted successfully",
         "Failed to delete visit"
-      ),
+      );
+    },
     [handleCrudAction]
   );
 
   const createVisit = useCallback(
-    (entry: VisitsTrafficEntry) =>
-      handleCrudAction(
+    async (entry: VisitsTrafficEntry): Promise<boolean> => {
+      return await handleCrudAction(
         () => axiosInstance.post(`/visits-traffic`, entry),
         "Visit created successfully",
         "Failed to create visit"
-      ),
+      );
+    },
     [handleCrudAction]
   );
 
   const reset = useCallback(() => dispatch({ type: "RESET" }), []);
 
   return {
-    ...state,
+    ...state, // loading, success, error
     updateVisit,
     deleteVisit,
     createVisit,

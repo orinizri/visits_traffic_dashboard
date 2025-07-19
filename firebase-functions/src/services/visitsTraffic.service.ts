@@ -10,9 +10,9 @@ import { TrafficSeedEntry } from "../types/visitsTraffic.types";
 import { CreateVisitsTrafficDTO } from "../zod/visitsTraffic.schema";
 
 /**
- * Firestore data converter to map between Firestore documents and User objects.
+ * Firestore data converter to map between Firestore documents and visits traffic objects.
  */
-const visitsConverter: FirestoreDataConverter<TrafficSeedEntry> = {
+const visitsTrafficConverter: FirestoreDataConverter<TrafficSeedEntry> = {
   toFirestore(visit: WithFieldValue<TrafficSeedEntry>) {
     return visit;
   },
@@ -23,7 +23,7 @@ const visitsConverter: FirestoreDataConverter<TrafficSeedEntry> = {
 };
 
 // Apply converter for type-safe reads and writes
-const col = firestore.collection("trafficStats").withConverter(visitsConverter);
+const col = firestore.collection("trafficStats").withConverter(visitsTrafficConverter);
 
 /**
  * Returns a paginated list of visits stats (traffic) with total document count.
@@ -62,7 +62,7 @@ export async function createVisitsTraffic(data: CreateVisitsTrafficDTO): Promise
 }
 
 /**
- * Updates an existing visits traffic document and returns the updated user.
+ * Updates an existing visits traffic document and returns the updated visits traffic
  */
 export async function updateVisitsTraffic(data: TrafficSeedEntry): Promise<TrafficSeedEntry> {
   const updatedAt = new Date().toISOString();

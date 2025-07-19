@@ -8,7 +8,7 @@ import LoadingSpinner from "./components/ui/LoadingSpinner";
 import { useAuth } from "./hooks/useAuth";
 
 export default function App() {
-  const { user, isLoading } = useAuth();
+  const { isLoading } = useAuth();
 
   if (isLoading) {
     return <LoadingSpinner message="Loading authentication" fullscreen={false} />;
@@ -18,8 +18,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" replace />} />
-
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<ProtectedRoute />}>
             <Route index element={<DashboardPage />} />
           </Route>

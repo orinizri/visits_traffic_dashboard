@@ -3,18 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Typography, Box } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth } from "../hooks/useAuth";
-import { fetchVisitsTraffic } from "../services/trafficService";
 
 const LoginPage = () => {
   const { user, isLoading, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("try axios");
-    fetchVisitsTraffic();
     if (!isLoading && user) {
-      console.log("User is authenticated:", user);
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [user, isLoading, navigate]);
 

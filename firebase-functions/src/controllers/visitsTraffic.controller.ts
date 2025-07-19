@@ -25,7 +25,7 @@ export async function fetchVisitsTrafficController(
 }
 
 /**
- * POST /users
+ * POST /visits-traffic
  * Creates a new user. Requires editor role.
  */
 export async function createVisitsTrafficController(
@@ -47,7 +47,7 @@ export async function createVisitsTrafficController(
 }
 
 /**
- * PUT /users/:id
+ * PUT /visits-traffic
  * Updates an existing user. Requires editor role.
  */
 export async function updateVisitsTrafficController(
@@ -65,17 +65,17 @@ export async function updateVisitsTrafficController(
 }
 
 /**
- * DELETE /users/:id
+ * DELETE /visits-traffic
  * Deletes a user by ID. Requires editor role.
  */
 export async function deleteVisitsTrafficController(
-  req: Request<{ date: string }>,
+  req: Request<ParamsDictionary, { success: boolean; data: TrafficSeedEntry }, { date: string }>,
   res: Response,
   next: NextFunction
 ) {
   try {
     // TODO: zod validate req.params.date
-    await service.deleteVisitsTraffic(req.params.date);
+    await service.deleteVisitsTraffic(req.body.date);
     sendSuccess(res, undefined, "User deleted successfully");
   } catch (err) {
     next(err);

@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../auth/firebase";
 import { AuthContextType } from "../types/auth.types";
+import { cacheToken } from "../utils/tokenManager";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
+    await cacheToken();
   };
 
   const logout = async () => {

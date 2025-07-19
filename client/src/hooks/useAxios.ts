@@ -19,6 +19,5 @@ export function useAxios<T>(url: string) {
       isMounted = false;
     };
   }, [url]);
-  console.log("data, isLoading, error", data, isLoading, error);
   return { data, isLoading, error };
 }
