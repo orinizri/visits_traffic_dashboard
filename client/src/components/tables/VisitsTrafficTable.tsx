@@ -23,6 +23,8 @@ import { SortState } from "../../types/filter.types";
 import DatePickerInput from "../inputs/DatePicker";
 import { AddNewRowButton } from "../ui/AddRowButton";
 import { formatDateToYMD } from "../../utils/utils";
+import { visitsTrafficEntrySchema } from "../../schemas/zod.schemas";
+import { toast } from "react-toastify";
 
 interface VisitsTableProps<T> {
   data: T[];
@@ -34,11 +36,11 @@ interface VisitsTableProps<T> {
 }
 
 const NewVisitTraffic = {
-  date: null,
+  date: "2025-05-01",
   visits: null,
 };
 interface NewVisitTrafficInterface {
-  date: null | string;
+  date: string | null;
   visits: null | number;
 }
 export default function VisitsTable({
@@ -83,24 +85,37 @@ export default function VisitsTable({
   };
 
   const handleCreate = async () => {
-    if (
-      !newEntry.date ||
-      typeof new Date(newEntry.date).getTime() !== "number" ||
-      newEntry.visits === null ||
-      typeof newEntry.visits !== "number"
-    )
-      // TODO: Zod validation
+    const parsed = visitsTrafficEntrySchema.safeParse(newEntry);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
-    await onCreate(newEntry as VisitsTrafficEntry);
+    }
+    await onCreate(parsed.data);
+    setShowCreateRow(false);
+    setNewEntry(NewVisitTraffic);
   };
 
   const handleSave = async (row: VisitsTrafficEntry) => {
     if (editedValue == null || editedValue === row.visits) return;
-    await onUpdate({ ...row, visits: editedValue });
+    const updatedRow = {
+      ...row,
+      visits: editedValue,
+    };
+    const parsed = visitsTrafficEntrySchema.safeParse(updatedRow);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
+      return;
+    }
+    await onUpdate(parsed.data);
     handleCancel();
   };
 
   const handleDelete = async (row: VisitsTrafficEntry) => {
+    const parsed = visitsTrafficEntrySchema.safeParse(row);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
+      return;
+    }
     await onDelete(row.date);
   };
 
@@ -123,9 +138,8 @@ export default function VisitsTable({
 
   return (
     <>
-      <AddNewRowButton onClick={() => setShowCreateRow(prev => !prev)} title="Add new entry" />
-
-      <TableContainer component={Paper} sx={{ mt: 2, borderRadius: 2, maxHeight: 600 }}>
+      <AddNewRowButton onClick={() => setShowCreateRow(prev => !prev)} title="Add a new entry" />
+      <TableContainer component={Paper} sx={{ mt: 1, borderRadius: 2, maxHeight: 300 }}>
         <Table stickyHeader size="small" aria-label="Visits traffic table">
           <TableHead>
             <TableRow>
@@ -158,7 +172,11 @@ export default function VisitsTable({
               <TableRow>
                 <TableCell>
                   <DatePickerInput
-                    value={newEntry.date ? new Date(newEntry.date) : null}
+                    value={
+                      newEntry.date && typeof +newEntry.date === "number"
+                        ? new Date(newEntry.date)
+                        : new Date("2025-01-01")
+                    }
                     onChange={date => updateNewEntry("date", date)}
                     slotProps={{ textField: { placeholder: "Date", size: "small" } }}
                   />
@@ -176,7 +194,7 @@ export default function VisitsTable({
                   <IconButton onClick={handleCreate}>
                     <CheckIcon />
                   </IconButton>
-                  <IconButton onClick={() => setNewEntry(NewVisitTraffic)}>
+                  <IconButton onClick={() => setShowCreateRow(false)}>
                     <CloseIcon />
                   </IconButton>
                 </TableCell>
@@ -194,7 +212,6 @@ export default function VisitsTable({
                       value={editedValue ?? ""}
                       onChange={e => setEditedValue(Math.max(0, Number(e.target.value)))}
                       onKeyDown={e => handleKeyDown(e, row)}
-                      inputProps={{ min: 0 }}
                       sx={{ width: 80 }}
                     />
                   ) : (

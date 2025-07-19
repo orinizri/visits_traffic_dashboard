@@ -41,7 +41,7 @@ export default function DashboardPage() {
           }}
         />
       }
-      table={<TableContainer {...tableManager} title="Visits Traffic" />}
+      table={<TableContainer {...tableManager} />}
     />
   );
 }

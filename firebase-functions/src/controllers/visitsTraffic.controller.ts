@@ -40,7 +40,7 @@ export async function createVisitsTrafficController(
   try {
     const parsed = VisitsTrafficSchema.parse(req.body);
     const newUser = await service.createVisitsTraffic(parsed);
-    sendCreated(res, newUser, "User created successfully");
+    sendCreated(res, newUser, "Entry created successfully");
   } catch (err) {
     next(err);
   }
@@ -58,7 +58,7 @@ export async function updateVisitsTrafficController(
   try {
     const parsed = VisitsTrafficSchema.parse(req.body);
     const updatedUser = await service.updateVisitsTraffic(parsed);
-    sendSuccess(res, updatedUser, "User updated successfully");
+    sendSuccess(res, updatedUser, "Entry updated successfully");
   } catch (err) {
     next(err);
   }
@@ -76,7 +76,7 @@ export async function deleteVisitsTrafficController(
   try {
     // TODO: zod validate req.params.date
     await service.deleteVisitsTraffic(req.body.date);
-    sendSuccess(res, undefined, "User deleted successfully");
+    sendSuccess(res, undefined, "Entry deleted successfully");
   } catch (err) {
     next(err);
   }

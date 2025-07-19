@@ -54,6 +54,10 @@ export async function createVisitsTraffic(data: CreateVisitsTrafficDTO): Promise
     createdAt: timestamp,
   } as TrafficSeedEntry;
   const docRef = col.doc(payload.date);
+  const existing = await docRef.get();
+  if (existing.exists) {
+    throw new AppError("Entry already exists for this date", 409); // Conflict
+  }
   await docRef.set(payload); // this creates/overwrites the document with that ID
   const newSnap = await docRef.get();
   if (!newSnap.exists) {

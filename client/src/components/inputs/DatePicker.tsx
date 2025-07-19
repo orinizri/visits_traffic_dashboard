@@ -7,6 +7,8 @@ interface DatePickerInputProps {
   error?: boolean;
   helperText?: string;
   slotProps?: { textField: { placeholder: string; size: string } };
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export default function DatePickerInput({
@@ -15,6 +17,8 @@ export default function DatePickerInput({
   onChange,
   error,
   helperText,
+  minDate,
+  maxDate,
   slotProps,
 }: DatePickerInputProps) {
   return (
@@ -22,6 +26,8 @@ export default function DatePickerInput({
       label={label}
       value={value}
       onChange={onChange}
+      minDate={minDate}
+      maxDate={maxDate}
       slotProps={{
         ...slotProps,
         textField: {

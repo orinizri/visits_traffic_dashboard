@@ -35,12 +35,13 @@ export function useVisitsCrudManager(inMemoryManager: inMemoryManagerInterface) 
     ): Promise<boolean> => {
       dispatch({ type: "START" });
       try {
-        await requestFn();
+        const response = await requestFn();
+        if (!response?.data?.success) return false;
         dispatch({ type: "SUCCESS" });
         toast.success(successMessage);
         return true;
       } catch (err: any) {
-        const message = err?.response?.data?.message || fallbackErrorMessage;
+        const message = err?.response?.data?.error || fallbackErrorMessage;
         dispatch({ type: "ERROR", error: message });
         toast.error(message);
         return false;

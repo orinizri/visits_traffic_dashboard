@@ -15,7 +15,7 @@ export async function cacheToken(newToken = null): Promise<string | null> {
     cachedToken = token;
     return token;
   } catch (error) {
-    console.error("Error fetching token after login:", error);
+    console.error(error);
     return null;
   }
 }

@@ -1,13 +1,5 @@
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from "recharts";
-import { VisitsTrafficEntry } from "../../types/visitsTraffic.types"; // adjust path as needed
+import { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
+import { VisitsTrafficEntry } from "../../types/visitsTraffic.types";
 import { Typography, Box } from "@mui/material";
 import Toggle from "../ui/Toggle";
 import { TimeInterval } from "../../types/enum.types";
@@ -35,14 +27,15 @@ export default function Chart({ title, data, interval, setInterval, axesKeys }: 
       </Box>
     );
   }
+
   return (
     <Box mt={4}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="h5">{title}</Typography>
         <Toggle value={interval} onChange={setInterval} />
       </Box>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
+        <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey={axesKeys.xAxisKey}
@@ -63,14 +56,8 @@ export default function Chart({ title, data, interval, setInterval, axesKeys }: 
               })
             }
           />
-          <Line
-            type="monotone"
-            stroke="#1976d2"
-            dataKey={axesKeys.yAxisKey}
-            strokeWidth={2}
-            dot={{ r: 3 }}
-          />
-        </LineChart>
+          <Bar dataKey={axesKeys.yAxisKey} fill="#1976d2" radius={[4, 4, 0, 0]} maxBarSize={40} />
+        </BarChart>
       </ResponsiveContainer>
     </Box>
   );
