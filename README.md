@@ -34,39 +34,42 @@ Built with React, Firebase Authentication, Firestore, and Cloud Functions using 
 
 ## 📁 Project Structure
 
+<pre lang="bash"><code>
 firebase-functions/
 ├── credentials/
 ├── src/
-│ ├──api/ # API central route
-│ ├── config/ # Firebase admin + env setup
-│ ├── controllers/ # Request/response logic
-│ ├── data/ # Visits Traffic Initial Seed
-│ ├── middlewares/ # Auth
-│ ├── routes/ # Express route layers
-│ ├── services/ # Business logic
-│ ├── schemas/ # Zod input schemas
-│ ├── types/ # Shared DTOs & type helpers
-│ ├── utils/ # Response helpers (sendError, etc.)
-│ ├── zod/ # Zod schemas
-│ └── index.ts # Cloud Function export entrypoint
+│   ├── api/             # API central route
+│   ├── config/          # Firebase admin + env setup
+│   ├── controllers/     # Request/response logic
+│   ├── data/            # Visits Traffic Initial Seed
+│   ├── middlewares/     # Auth middleware
+│   ├── routes/          # Express route layers
+│   ├── services/        # Business logic
+│   ├── schemas/         # Zod input schemas
+│   ├── types/           # Shared DTOs & type helpers
+│   ├── utils/           # Response helpers (sendError, etc.)
+│   ├── zod/             # Zod reusable schemas
+│   └── index.ts         # Cloud Function export entrypoint
 ├── .nvmrc
 ├── tsconfig.json
 ├── package.json
+
 client/
 ├── src/
-│ ├──api/ # Axios instance
-│ ├──auth/ # firebase
-│ ├──components/ # Reusable UI components (charts, inputs, containers)
-│ ├──config/ # Firebase config and env
-│ ├──contexts/ # Auth context and provider
-│ ├──hooks/ # useVisitsFilters, useVisitsCrudManager, useVisitsTrafficData
-│ ├──pages/ # App Router structure
-│ ├──routes/ # Protected route
-│ ├──schemas/ # zod
-│ ├──types/ # TypeScript interfaces and enums
-│ └──utils/ # Date formatting, aggregation, helpers
-├──index.tsx # Entry point
-└── App.tsx # Routing and layout
+│   ├── api/             # Axios instance
+│   ├── auth/            # Firebase Auth logic
+│   ├── components/      # Reusable UI components (charts, inputs, containers)
+│   ├── config/          # Firebase config and environment
+│   ├── contexts/        # Auth context and provider
+│   ├── hooks/           # useVisitsFilters, useVisitsCrudManager, useVisitsTrafficData
+│   ├── pages/           # App Router structure
+│   ├── routes/          # Protected route wrappers
+│   ├── schemas/         # Zod schemas for frontend forms
+│   ├── types/           # TypeScript interfaces and enums
+│   └── utils/           # Date formatting, aggregation, helpers
+├── index.tsx            # App entry point
+└── App.tsx              # Routing and layout
+</code></pre>
 
 ## Backend Highlights
 
