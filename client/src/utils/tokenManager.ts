@@ -1,5 +1,4 @@
-// utils/tokenManager.ts
-import { auth } from "../auth/firebase"; // your initialized firebase app
+import { auth } from "../auth/firebase";
 
 let cachedToken: string | null = null;
 
@@ -14,7 +13,6 @@ export async function cacheToken(newToken = null): Promise<string | null> {
     }
     const token = await user.getIdToken();
     cachedToken = token;
-    console.log("cachedToken", cachedToken);
     return token;
   } catch (error) {
     console.error("Error fetching token after login:", error);

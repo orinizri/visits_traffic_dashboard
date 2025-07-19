@@ -11,9 +11,9 @@ import ErrorAlert from "../components/ui/ErrorAlert";
 
 export default function DashboardPage() {
   // Fetch data
-  const { data, isLoading, error } = useVisitsTrafficData();
+  const { data, isLoading, error, ...inMemoryManager } = useVisitsTrafficData();
   // CRUD manager
-  const tableManager = useVisitsTableManager(data || []);
+  const tableManager = useVisitsTableManager(data || [], inMemoryManager);
 
   // Time Interval for toggling time interval in chart
   const [interval, setInterval] = useState<TimeInterval>(TimeInterval.week);

@@ -53,8 +53,9 @@ export async function createVisitsTraffic(data: CreateVisitsTrafficDTO): Promise
     ...data,
     createdAt: timestamp,
   } as TrafficSeedEntry;
-  const ref = await col.add(payload);
-  const newSnap = await col.doc(ref.id).get();
+  const docRef = col.doc(payload.date);
+  await docRef.set(payload); // this creates/overwrites the document with that ID
+  const newSnap = await docRef.get();
   if (!newSnap.exists) {
     throw new AppError("Failed to retrieve the newly created visits traffic", 500);
   }

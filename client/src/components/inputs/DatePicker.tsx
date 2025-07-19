@@ -1,11 +1,12 @@
 import { DatePicker } from "@mui/x-date-pickers";
 
 interface DatePickerInputProps {
-  label: string;
+  label?: string;
   value: Date | null;
   onChange: (date: Date | null) => void;
   error?: boolean;
   helperText?: string;
+  slotProps?: { textField: { placeholder: string; size: string } };
 }
 
 export default function DatePickerInput({
@@ -14,6 +15,7 @@ export default function DatePickerInput({
   onChange,
   error,
   helperText,
+  slotProps,
 }: DatePickerInputProps) {
   return (
     <DatePicker
@@ -21,6 +23,7 @@ export default function DatePickerInput({
       value={value}
       onChange={onChange}
       slotProps={{
+        ...slotProps,
         textField: {
           fullWidth: true,
           error,

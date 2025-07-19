@@ -7,6 +7,7 @@ import {
   VisitsTrafficEntry,
 } from "../types/visitsTraffic.types";
 import { toast } from "react-toastify";
+import { inMemoryManagerInterface } from "./useVisitsTableManager";
 
 function visitsReducer(state: VisitsCrudState, action: VisitsCrudAction): VisitsCrudState {
   switch (action.type) {
@@ -23,7 +24,7 @@ function visitsReducer(state: VisitsCrudState, action: VisitsCrudAction): Visits
   }
 }
 
-export function useVisitsCrudManager() {
+export function useVisitsCrudManager(inMemoryManager: inMemoryManagerInterface) {
   const [state, dispatch] = useReducer(visitsReducer, initialState);
 
   const handleCrudAction = useCallback(
@@ -50,35 +51,47 @@ export function useVisitsCrudManager() {
 
   const updateVisit = useCallback(
     async (entry: VisitsTrafficEntry): Promise<boolean> => {
-      return await handleCrudAction(
+      const success = await handleCrudAction(
         () => axiosInstance.put(`/visits-traffic`, entry),
         "Visit updated successfully",
         "Failed to update visit"
       );
+      if (success) {
+        inMemoryManager.updateVisit(entry);
+      }
+      return success;
     },
-    [handleCrudAction]
+    [handleCrudAction, inMemoryManager]
   );
 
   const deleteVisit = useCallback(
     async (date: string): Promise<boolean> => {
-      return await handleCrudAction(
+      const success = await handleCrudAction(
         () => axiosInstance.post(`/visits-traffic/delete`, { date }),
         "Visit deleted successfully",
         "Failed to delete visit"
       );
+      if (success) {
+        inMemoryManager.deleteVisit(date);
+      }
+      return success;
     },
-    [handleCrudAction]
+    [handleCrudAction, inMemoryManager]
   );
 
   const createVisit = useCallback(
     async (entry: VisitsTrafficEntry): Promise<boolean> => {
-      return await handleCrudAction(
+      const success = await handleCrudAction(
         () => axiosInstance.post(`/visits-traffic`, entry),
         "Visit created successfully",
         "Failed to create visit"
       );
+      if (success) {
+        inMemoryManager.createVisit(entry);
+      }
+      return success;
     },
-    [handleCrudAction]
+    [handleCrudAction, inMemoryManager]
   );
 
   const reset = useCallback(() => dispatch({ type: "RESET" }), []);

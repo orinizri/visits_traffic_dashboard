@@ -1,5 +1,6 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { TimeInterval } from "../../types/enum.types";
+import { capitalizeFirstLetter } from "../../utils/utils";
 
 interface ToggleProps<T> {
   value: T;
@@ -22,7 +23,7 @@ export default function Toggle({ value, onChange }: ToggleProps<TimeInterval>) {
     >
       {Object.values(TimeInterval).map(interval => (
         <ToggleButton value={interval} key={interval}>
-          {interval.charAt(0).toUpperCase() + interval.slice(1)}
+          {capitalizeFirstLetter(interval)}
         </ToggleButton>
       ))}
     </ToggleButtonGroup>

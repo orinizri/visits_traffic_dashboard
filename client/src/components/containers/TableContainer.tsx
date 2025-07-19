@@ -16,6 +16,7 @@ export default function TableContainer({
   resetFilters,
   onDelete,
   onUpdate,
+  onCreate,
   title,
 }: TableContainerProps) {
   return (
@@ -30,6 +31,7 @@ export default function TableContainer({
         onSort={updateSort}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onCreate={onCreate}
       />
     </Box>
   );
