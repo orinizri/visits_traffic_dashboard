@@ -5,3 +5,21 @@ export interface VisitsTrafficEntry {
   createdBy: string;
   updatedAt?: string;
 }
+
+export type VisitsCrudAction =
+  | { type: "START" }
+  | { type: "SUCCESS"; message?: string }
+  | { type: "ERROR"; error: string }
+  | { type: "RESET" };
+
+export interface VisitsCrudState {
+  loading: boolean;
+  error: string | null;
+  success: boolean;
+}
+
+export const initialState: VisitsCrudState = {
+  loading: false,
+  error: null,
+  success: false,
+};

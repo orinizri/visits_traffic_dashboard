@@ -8,7 +8,7 @@ type ViewMode = "daily" | "weekly" | "monthly";
 
 type AggregatedDataCache = Partial<Record<ViewMode, VisitsTrafficEntry[]>>;
 
-export function useVisitsTraffic() {
+export function useVisitsTrafficData() {
   const { data: rawData, isLoading, error } = useAxios<VisitsTrafficResponse>("/visits-traffic");
   const { data } = rawData || {};
 
