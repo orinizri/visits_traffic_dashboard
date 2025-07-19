@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
   TextField,
   IconButton,
   TableSortLabel,
@@ -35,11 +34,11 @@ interface VisitsTableProps<T> {
 
 const NewVisitTraffic = {
   date: "2025-05-01",
-  visits: null,
+  visits: -Infinity,
 };
 export interface NewVisitTrafficInterface {
   date: string | null;
-  visits: number | null;
+  visits: number;
 }
 export default function VisitsTable({
   data,
@@ -178,8 +177,12 @@ export default function VisitsTable({
                       inputRef={inputRef}
                       size="small"
                       type="number"
-                      value={editedValue ?? ""}
-                      onChange={e => setEditedValue(Math.max(0, Number(e.target.value)))}
+                      value={editedValue || ""}
+                      onChange={e =>
+                        !isNaN(+e.target.value)
+                          ? setEditedValue(Math.max(0, Number(e.target.value)))
+                          : null
+                      }
                       onKeyDown={e => handleKeyDown(e, row)}
                       sx={{ width: 80 }}
                     />
