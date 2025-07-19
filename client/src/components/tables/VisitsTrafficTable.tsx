@@ -16,15 +16,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import { VisitsTrafficEntry } from "../../types/visitsTraffic.types";
 import { SortState } from "../../types/filter.types";
-import DatePickerInput from "../inputs/DatePicker";
 import { AddNewRowButton } from "../ui/AddRowButton";
 import { formatDateToYMD } from "../../utils/utils";
 import { visitsTrafficEntrySchema } from "../../schemas/zod.schemas";
 import { toast } from "react-toastify";
+import CreateVisitsTraffic from "./CreateVisitsTraffic";
 
 interface VisitsTableProps<T> {
   data: T[];
@@ -39,9 +37,9 @@ const NewVisitTraffic = {
   date: "2025-05-01",
   visits: null,
 };
-interface NewVisitTrafficInterface {
+export interface NewVisitTrafficInterface {
   date: string | null;
-  visits: null | number;
+  visits: number | null;
 }
 export default function VisitsTable({
   data,
@@ -128,17 +126,11 @@ export default function VisitsTable({
     }
   };
 
-  if (!data.length) {
-    return (
-      <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
-        No results found for the selected filters.
-      </Typography>
-    );
-  }
-
   return (
     <>
+      {/* ADD NEW ROW */}
       <AddNewRowButton onClick={() => setShowCreateRow(prev => !prev)} title="Add a new entry" />
+      {/* TABLE */}
       <TableContainer component={Paper} sx={{ mt: 1, borderRadius: 2, maxHeight: 300 }}>
         <Table stickyHeader size="small" aria-label="Visits traffic table">
           <TableHead>
@@ -168,37 +160,14 @@ export default function VisitsTable({
             </TableRow>
           </TableHead>
           <TableBody>
+            {/* CREATE VISITS TRAFFIC */}
             {showCreateRow && (
-              <TableRow>
-                <TableCell>
-                  <DatePickerInput
-                    value={
-                      newEntry.date && typeof +newEntry.date === "number"
-                        ? new Date(newEntry.date)
-                        : new Date("2025-01-01")
-                    }
-                    onChange={date => updateNewEntry("date", date)}
-                    slotProps={{ textField: { placeholder: "Date", size: "small" } }}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <TextField
-                    type="number"
-                    size="small"
-                    placeholder="Visits"
-                    value={newEntry.visits}
-                    onChange={e => updateNewEntry("visits", Number(e.target.value))}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton onClick={handleCreate}>
-                    <CheckIcon />
-                  </IconButton>
-                  <IconButton onClick={() => setShowCreateRow(false)}>
-                    <CloseIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+              <CreateVisitsTraffic
+                handleCreate={handleCreate}
+                newEntry={newEntry}
+                setShowCreateRow={setShowCreateRow}
+                updateNewEntry={updateNewEntry}
+              />
             )}
             {data.map(row => (
               <TableRow key={row.date} hover>
@@ -219,6 +188,7 @@ export default function VisitsTable({
                   )}
                 </TableCell>
                 <TableCell align="right">
+                  {/* ACTIONS ON ROW */}
                   {editingRow === row.date ? (
                     <>
                       <IconButton size="small" onClick={() => handleSave(row)} aria-label="Save">
