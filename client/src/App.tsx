@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import DashboardPage from "./pages/Dashboard";
 import LoginPage from "./pages/Login";
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./components/layouts/MainLayout";
 import NotFoundPage from "./pages/NotFound";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import { useAuth } from "./hooks/useAuth";
